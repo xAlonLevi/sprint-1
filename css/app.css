@@ -1,0 +1,14 @@
+table {
+    margin: 100px auto;
+    border: 1px solid lightgray;
+    text-align: center;
+
+}
+
+.cell {
+    width: 40px;
+    height: 40px;
+    font-size: 1.5em;
+    margin: 50px auto 30px;
+    border: 1x solid rgb(242, 15, 15);
+}
