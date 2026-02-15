@@ -8,13 +8,13 @@ function renderBoard(mat, selector) {
         
         for (var j = 0; j < mat[0].length; j++) {
             const  currCell = gBoard[i][j]
-            const cell = mat[i][j]
+            // const cell = mat[i][j]
             const className = `cell cell-${i}-${j}`
             var content = ''
 
-            content = !currCell.isRevealed ? 'N' : 'O'
+            // content = !currCell.isRevealed ? '' : '1'
             if (currCell.isRevealed && currCell.isMine) {
-                content = 'B'
+                content = '🧨'
             }
 
             strHTML += `<td class="${className}" onclick="onCellClicked(this, ${i},${j})">${content}</td>`

@@ -53,7 +53,7 @@ function onCellClicked(elCell, i, j) {
     if (cell.isRevealed) return
 
     cell.isRevealed = true
-    elCell.innerText = cell.isMine ? 'B' : 'O'
+    elCell.innerText = cell.isMine ? '🧨' : 'O'
 }
 
 
