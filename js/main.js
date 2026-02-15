@@ -49,8 +49,13 @@ function buildBoard() {
 
 
 function onCellClicked(elCell, i, j) {
-    if (elCell[i][j].isRevealed === false) elCell[i][j].isRevealed = true
+    const cell = gBoard[i][j]
+    if (cell.isRevealed) return
+
+    cell.isRevealed = true
+    elCell.innerText = cell.isMine ? 'B' : 'O'
 }
+
 
 
 

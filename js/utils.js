@@ -2,18 +2,18 @@
 
 function renderBoard(mat, selector) {
     var strHTML = ''
-
+    
     for (var i = 0; i < mat.length; i++) {
         strHTML += '<tr>'
-
+        
         for (var j = 0; j < mat[0].length; j++) {
-
+            const  currCell = gBoard[i][j]
             const cell = mat[i][j]
             const className = `cell cell-${i}-${j}`
             var content = ''
 
-            content = !gBoard[i][j].isRevealed ? 'N' : 'O'
-            if (gBoard[i][j].isRevealed && gBoard[i][j].isMine) {
+            content = !currCell.isRevealed ? 'N' : 'O'
+            if (currCell.isRevealed && currCell.isMine) {
                 content = 'B'
             }
 
