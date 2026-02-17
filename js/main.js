@@ -53,6 +53,7 @@ function buildBoard() {
             }
         }
     }
+    console.log(board)
     return board
 }
 
@@ -75,10 +76,46 @@ function onCellClicked(elCell, i, j) {
             elCell.innerText = minesAround
         }
     }
-    console.log(minesAround)
+    var gameState = checkGameOver(gBoard, gLevel)
+    if (gameState === 'loss') {
+        document.querySelector('.lose-state').classList.add('show')
+        document.querySelector('.btn').textContent = '💀'
+    }
+    if (gameState === 'victory') {
+        document.querySelector('.win-state').classList.add('show')
+        document.querySelector('.btn').textContent = '😚'
+    }
+
+
 }
 
 
+function checkGameOver() {
+    var minesRevealedCount = 0
+    var cellRevealedCount = 0
+
+    for (let i = 0; i < gLevel.size; i++) {
+        for (let j = 0; j < gLevel.size; j++) {
+            const cell = gBoard[i][j]
+            if (cell.isMine && cell.isRevealed) {
+                minesRevealedCount++
+                console.log(minesRevealedCount)
+            }
+            if (cell.isRevealed) {
+                cellRevealedCount++
+            }
+            if (minesRevealedCount > 0) {
+                console.log('loss')
+                return 'loss'
+            }
+            if (cellRevealedCount === (gLevel.size ** 2 - gLevel.mines)) {
+                return 'victory'
+            }
+        }
+
+    }
+
+}
 
 
 
@@ -106,11 +143,9 @@ function setMinesNegsCount(board) {
 function onCellMarked(elcell, i, j) {
 
 }
-function checkGameOver() {
-
-}
 
 //reveals non-mine negs
 function expandReveal(board, elcell, i, j) {
 
 }
+
