@@ -12,7 +12,16 @@
     <div class="win-state">VICTORY</div>
     <div class="lose-state">LOSE</div>
     <div class="board-container">
-        <button class="btn" onclick="onInit()">😊</button>
+        <div class="controls">
+            <button class="btn" onclick="onInit()">😊</button>
+            <button class="level" onclick="changeDiffEasy()">⚙</button>
+            <button class="level" onclick="changeDiffMed()">⚙</button>
+            <button class="level" onclick="changeDiffHard()">⚙</button>
+            <div class="lives">
+                
+            </div>
+        </div>
+        
         <table>
             <tbody class="board"></tbody>
         </table>

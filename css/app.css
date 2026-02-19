@@ -47,3 +47,13 @@
     margin: 0;
     display:block
 }
+
+.revealed {
+    background-color: lightgray;
+}
+
+.controls{
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
