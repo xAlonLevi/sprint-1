@@ -16,6 +16,8 @@ var gGame = {
     lives: 3
 }
 
+var gLivesLeft
+
 function onInit() {
     gBoard = buildBoard() //holds a board with 2 mines
     setNegsMineCount()
@@ -70,6 +72,7 @@ function renderBoard() {
     }
 
     const elContainer = document.querySelector('.board')
+
     elContainer.innerHTML = strHTML
 }
 
@@ -195,14 +198,17 @@ function countNeighbors(rowIdx, colIdx, mat) {
 }
 
 function endState(gameState) {
-
-    if (gameState === 'loss') {
+    document.querySelector('.lives-left').textContent = gameState.livesLeft
+    if (gameState.status === 'lose') {
         document.querySelector('.lose-state').classList.add('show')
         document.querySelector('.btn').textContent = '💀'
+        document.querySelector('.lives-left').textContent = gameState.livesLeft
+
     }
-    if (gameState === 'victory') {
+    if (gameState.status === 'victory') {
         document.querySelector('.win-state').classList.add('show')
         document.querySelector('.btn').textContent = '😚'
+        document.querySelector('.lives-left').textContent = gameState.livesLeft
     }
     return
 }
@@ -214,16 +220,17 @@ function checkGameOver() {
     for (let i = 0; i < gLevel.size; i++) {
         for (let j = 0; j < gLevel.size; j++) {
             const cell = gBoard[i][j]
+            var livesLeft = gGame.lives - minesRevealedCount
+            console.log(livesLeft);
 
-            if (cell.isMine && cell.isRevealed) {
-                minesRevealedCount++
 
-            }
-            if (cell.isRevealed && !cell.isMine) cellRevealedCount++ 
-        
-            if (minesRevealedCount >= gGame.lives) {
+            if (cell.isMine && cell.isRevealed) minesRevealedCount++
+
+            if (cell.isRevealed && !cell.isMine) cellRevealedCount++
+
+            if (livesLeft <= 0) {
                 gGame.isOn = false
-                return 'loss'
+                return { status: 'lose', livesLeft }
             }
         }
     }
@@ -232,8 +239,9 @@ function checkGameOver() {
 
     if (cellRevealedCount === safeCells && getMinesFlagCheck()) {
         gGame.isOn = false
-        return 'victory'
+        return { status: 'victory', livesLeft }
     }
+    return { status: 'playing', livesLeft }
 }
 
 function getMinesFlagCheck() {

@@ -1,4 +1,14 @@
+h1 {
+    text-align: center;
+}
+
+table {
+    margin: 0 auto;
+}
+
+
 .cell {
+    text-align: center;
     width: 40px;
     height: 40px;
     font-size: 1.5em;
@@ -14,6 +24,8 @@
 }
 
 .board-container {
+    margin: 0;
+    text-align: center;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -22,8 +34,10 @@
 }
 
 .board {
+    align-items: center;
     margin: 0;
     border-collapse: collapse;
+    justify-content: center;
 }
 
 .win-state {
@@ -41,19 +55,25 @@
     display: none;
 }
 
-.lose-state.show{
+.lose-state.show {
     margin: top 50px;
     text-align: center;
     margin: 0;
-    display:block
+    display: block
 }
 
 .revealed {
     background-color: lightgray;
 }
 
-.controls{
-  display: flex;
-  align-items: center;
-  gap: 10px;
+.controls {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.lives {
+    padding: 0.1%;
+    border: 4px solid;
+    border-color: grey;
 }

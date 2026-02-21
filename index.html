@@ -9,22 +9,25 @@
 </head>
 
 <body onload="onInit()">
+    <h1>Minesweeper</h1>
     <div class="win-state">VICTORY</div>
     <div class="lose-state">LOSE</div>
     <div class="board-container">
         <div class="controls">
+            <button class="level" onclick="changeDiffEasy()">⚙ Easy</button>
+            <button class="level" onclick="changeDiffMed()">⚙ Medium</button>
+            <button class="level" onclick="changeDiffHard()">⚙ Hard</button>
             <button class="btn" onclick="onInit()">😊</button>
-            <button class="level" onclick="changeDiffEasy()">⚙</button>
-            <button class="level" onclick="changeDiffMed()">⚙</button>
-            <button class="level" onclick="changeDiffHard()">⚙</button>
-            <div class="lives">
-                
+            <div class="lives">Lives
+                <span class="lives-left">3</span>
             </div>
+
         </div>
-        
-        <table>
-            <tbody class="board"></tbody>
-        </table>
+    </div>
+
+    <table>
+        <tbody class="board"></tbody>
+    </table>
     </div>
 
     <script src="js/utils.js"></script>
