@@ -4,7 +4,7 @@ var gBoard
 
 var gLevel = {
     size: 4,
-    mines: 4
+    mines: 2
 }
 
 var gGame = {
@@ -82,6 +82,7 @@ function onCellRightClick(ev, elCell, i, j) {
 
     ev.preventDefault()
     if (!gGame.isOn) return
+    if (gBoard[i][j].isRevealed) return
     console.log('FLAG TOGGLED', i, j,)
 
     if (!elCell) return
@@ -94,6 +95,8 @@ function onCellRightClick(ev, elCell, i, j) {
     var gameState = checkGameOver(gBoard, gLevel)
     endState(gameState)
     renderBoard()
+    console.log(gBoard[i][j]);
+
 }
 
 function buildBoard() {
@@ -108,7 +111,8 @@ function buildBoard() {
                 minesAroundCount: 0,
                 isRevealed: false,
                 isMine: false,
-                isMarked: false
+                isMarked: false,
+
             }
         }
     }
@@ -150,6 +154,8 @@ function onCellClicked(elCell, i, j) {
     endState(gameState)
 
     renderBoard()
+    console.log(currCell);
+
 }
 
 function handleMine(i, j) {
@@ -157,6 +163,8 @@ function handleMine(i, j) {
 
     if (!cell.isMine) return
     cell.isRevealed = true
+
+
 }
 
 
@@ -216,33 +224,59 @@ function endState(gameState) {
 function checkGameOver() {
     var minesRevealedCount = 0
     var cellRevealedCount = 0
+    var MinesRevealedWithLife = 0
+    var hasLife = true
 
     for (let i = 0; i < gLevel.size; i++) {
         for (let j = 0; j < gLevel.size; j++) {
             const cell = gBoard[i][j]
-            var livesLeft = gGame.lives - minesRevealedCount
-            console.log(livesLeft);
 
 
             if (cell.isMine && cell.isRevealed) minesRevealedCount++
 
             if (cell.isRevealed && !cell.isMine) cellRevealedCount++
 
-            if (livesLeft <= 0) {
-                gGame.isOn = false
-                return { status: 'lose', livesLeft }
-            }
+            var livesLeft = gGame.lives - minesRevealedCount
+            // console.log(livesLeft);
+
+            if (cell.isMine && cell.isRevealed && hasLife) MinesRevealedWithLife++
+            // console.log(MinesRevealedWithLife);
+
+
         }
+    }
+    if (livesLeft < 1) {
+        gGame.isOn = false
+        return { status: 'lose', livesLeft }
     }
     const cells = gLevel.size ** 2
     const safeCells = cells - gLevel.mines
 
     if (cellRevealedCount === safeCells && getMinesFlagCheck()) {
+
+        console.log('victory');
         gGame.isOn = false
         return { status: 'victory', livesLeft }
-    }
+
+    } 
     return { status: 'playing', livesLeft }
 }
+
+
+// for (let i = 0; i < livesLeft; i++) {
+//     for (let j = 0; j < livesLeft; j++) {
+//         console.log('h');
+//         if (gBoard[i][j].isRevealed && gBoard[i][j].isMine) {
+//             gBoard[i][j].isMarked = true
+//         }
+
+
+
+//     }
+//     // gBoard[i][j].isMarked = true
+
+// }
+
 
 function getMinesFlagCheck() {
     var placedFlagCount = 0
@@ -258,8 +292,13 @@ function getMinesFlagCheck() {
         }
     }
 
-    return correctlyPlacedFlagCount === gLevel.mines &&
+    // return correctlyPlacedFlagCount === gLevel.mines - gGame.lives &&
+    //     (placedFlagCount === gLevel.mines || placedFlagCount === gLevel.mines - gGame.lives)
+    console.log(gLevel.mines)
+    return (
+        correctlyPlacedFlagCount === gLevel.mines &&
         placedFlagCount === gLevel.mines
+    )
 }
 
 
@@ -276,6 +315,30 @@ function getRandMinePos() {
         minesArray.push(randMinePoss)
     }
     return minesArray
+
+    // console.log(minesArray)
+
+    // while (minesArray.length < gLevel.mines) {
+    //     var rowIdx = getRandomInt(0, gLevel.size)
+    //     var colIdx = getRandomInt(0, gLevel.size)
+
+    //     var mineExists = false
+    //     for (let i = 0; i < minesArray.length; i++) {
+    //         const element = minesArray[i]
+    //         if (element.rowIdx === rowIdx &&
+    //             element.colIdx === colIdx) { 
+    //         mineExists = true
+            
+    //         break
+    //         }
+    //         if (mineExists) continue
+
+    //         minesArray.push({ rowIdx, colIdx })
+    //     }
+    // }
+    // console.log(minesArray)
+
+    // return minesArray
 }
 
 function changeDiffEasy() {
