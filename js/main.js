@@ -4,7 +4,7 @@ var gBoard
 
 var gLevel = {
     size: 4,
-    mines: 2
+    mines: 4
 }
 
 var gGame = {
@@ -258,7 +258,7 @@ function checkGameOver() {
         gGame.isOn = false
         return { status: 'victory', livesLeft }
 
-    } 
+    }
     return { status: 'playing', livesLeft }
 }
 
@@ -281,64 +281,84 @@ function checkGameOver() {
 function getMinesFlagCheck() {
     var placedFlagCount = 0
     var correctlyPlacedFlagCount = 0
-
     for (let i = 0; i < gBoard.length; i++) {
         for (let j = 0; j < gBoard[0].length; j++) {
             const cell = gBoard[i][j]
-
             if (cell.isMarked) placedFlagCount++
             if (cell.isMine && cell.isMarked) correctlyPlacedFlagCount++
-
         }
     }
 
-    // return correctlyPlacedFlagCount === gLevel.mines - gGame.lives &&
-    //     (placedFlagCount === gLevel.mines || placedFlagCount === gLevel.mines - gGame.lives)
-    console.log(gLevel.mines)
+    var revealedMinesCount = 0
+    for (let i = 0; i < gBoard.length; i++) {
+        for (let j = 0; j < gBoard[0].length; j++) {
+            const cell = gBoard[i][j]
+            if (cell.isMine && cell.isRevealed) revealedMinesCount++
+        }
+    }
+
+    var minesLeftToFlag = gLevel.mines - revealedMinesCount
+
     return (
-        correctlyPlacedFlagCount === gLevel.mines &&
-        placedFlagCount === gLevel.mines
+        correctlyPlacedFlagCount === minesLeftToFlag &&
+        placedFlagCount === minesLeftToFlag
     )
 }
 
+// function getMinesFlagCheck() {
+//     var placedFlagCount = 0
+//     var correctlyPlacedFlagCount = 0
+
+//     for (let i = 0; i < gBoard.length; i++) {
+//         for (let j = 0; j < gBoard[0].length; j++) {
+//             const cell = gBoard[i][j]
+
+//             if (cell.isMarked) placedFlagCount++
+//             if (cell.isMine && cell.isMarked) correctlyPlacedFlagCount++
+
+//         }
+//     }
+
+//     console.log(gLevel.mines)
+//     return (
+//         correctlyPlacedFlagCount === gLevel.mines &&
+//         placedFlagCount === gLevel.mines
+//     )
+// }
+
 
 function getRandMinePos() {
-    var minesArray = []
+    // var minesArray = []
 
-    for (let i = 0; i < gLevel.mines; i++) {
-        var randMinePoss = {}
+    // for (let i = 0; i < gLevel.mines; i++) {
+    //     var randMinePoss = {}
 
-        var rowIdx = getRandomInt(0, gLevel.size)
-        var colIdx = getRandomInt(0, gLevel.size)
-
-        randMinePoss = { rowIdx, colIdx }
-        minesArray.push(randMinePoss)
-    }
-    return minesArray
-
-    // console.log(minesArray)
-
-    // while (minesArray.length < gLevel.mines) {
     //     var rowIdx = getRandomInt(0, gLevel.size)
     //     var colIdx = getRandomInt(0, gLevel.size)
 
-    //     var mineExists = false
-    //     for (let i = 0; i < minesArray.length; i++) {
-    //         const element = minesArray[i]
-    //         if (element.rowIdx === rowIdx &&
-    //             element.colIdx === colIdx) { 
-    //         mineExists = true
-            
-    //         break
-    //         }
-    //         if (mineExists) continue
-
-    //         minesArray.push({ rowIdx, colIdx })
-    //     }
+    //     randMinePoss = { rowIdx, colIdx }
+    //     minesArray.push(randMinePoss)
     // }
-    // console.log(minesArray)
-
     // return minesArray
+
+    var minesArray = []
+
+    while (minesArray.length < gLevel.mines) {
+        var rowIdx = getRandomInt(0, gLevel.size)
+        var colIdx = getRandomInt(0, gLevel.size)
+
+        var mineExists = false
+        for (var i = 0; i < minesArray.length; i++) {
+            var el = minesArray[i]
+            if (el.rowIdx === rowIdx && el.colIdx === colIdx) {
+                mineExists = true
+                break
+            }
+        }
+        if (mineExists) continue
+        minesArray.push({ rowIdx, colIdx })
+    }
+    return minesArray
 }
 
 function changeDiffEasy() {
